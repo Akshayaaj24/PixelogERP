@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import {
   STAGES, STAGE_DONE, EVENT_COLORS, stageIdx, stageName, videoOverdue, isOverdue, workload, scheduleConflicts, deriveEvents, myStage, involved,
   todayS, addDays, curMonth, parseD,
-} from '@studioflow/shared';
+} from '@PixelogERP/shared';
 import { api } from '../api.js';
 import { useUi, useWorkspace } from '../lib/store.jsx';
 import { Kpi, Card, PageHeader, Progress, Badge, Btn, Empty, Avatar, ClientMark, Icon, monthLabel, fmt, fmtL, wkday, ago, pct, greet } from '../components/ui.jsx';

@@ -1,4 +1,4 @@
-# StudioFlow ERP
+# PixelogERP ERP
 
 A workflow ERP for digital marketing agencies. It covers clients, monthly content packages, video production (script → approval → shoot → edit → review → posting), staff schedules, a calendar, notifications and reports.
 
@@ -33,9 +33,9 @@ The repo is set up for Vercel as-is:
 - One MongoDB connection is reused between requests.
 - Sign-in limits are stored in MongoDB.
 
-The app doesn't store any files. Scripts and videos are shared on WhatsApp, and StudioFlow only tracks their status (submitted, approved, revision requested). So there's no file storage to set up.
+The app doesn't store any files. Scripts and videos are shared on WhatsApp, and PixelogERP only tracks their status (submitted, approved, revision requested). So there's no file storage to set up.
 
-1. **MongoDB Atlas.** Under Network Access, allow `0.0.0.0/0` (Vercel's IP addresses change). Copy the connection string, adding `/studioflow` before the `?`.
+1. **MongoDB Atlas.** Under Network Access, allow `0.0.0.0/0` (Vercel's IP addresses change). Copy the connection string, adding `/PixelogERP` before the `?`.
 2. **Push this repo to GitHub.** Make sure `server/.env` is not committed.
 3. **Vercel → Add New → Project → import the repo.** Leave the Root Directory as the repo root (the build needs `shared/`). The install, build and output settings come from `vercel.json`.
 4. **Environment variables** (Project → Settings → Environment Variables):

@@ -1,7 +1,7 @@
 // Staff-only pages: my tasks, my clients, completed history.
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { EVENT_COLORS, isOverdue, involved, stageIdx, stageName, diffDays } from '@studioflow/shared';
+import { EVENT_COLORS, isOverdue, involved, stageIdx, stageName, diffDays } from '@PixelogERP/shared';
 import { api } from '../api.js';
 import { useAction, useUi, useWorkspace } from '../lib/store.jsx';
 import { DataTable, PageHeader, Card, Badge, Btn, ClientMark, Empty, Due, fmtY } from '../components/ui.jsx';

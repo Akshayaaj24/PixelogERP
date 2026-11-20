@@ -3,7 +3,7 @@ import { useState } from 'react';
 import {
   STAGES, STAGE_KEY, STAGE_LBL, STATUSES, PLATFORMS, SLOTS, EVENT_COLORS, stageIdx, stageName, stageActions, stageReady, myStage,
   videoStatus, isOverdue, shootClash,
-} from '@studioflow/shared';
+} from '@PixelogERP/shared';
 import { api } from '../api.js';
 import { useAction, useUi, useWorkspace } from '../lib/store.jsx';
 import {

@@ -2,7 +2,7 @@
 // WARNING: wipes existing data. Pass --keep to abort if data exists.
 import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
-import { todayS, addDays, curMonth, diffDays, clientCode, NOTIFICATION_TYPES } from '@studioflow/shared';
+import { todayS, addDays, curMonth, diffDays, clientCode, NOTIFICATION_TYPES } from '@PixelogERP/shared';
 import { config } from './core.js';
 import { User, Client, Package, Video, Task, TaskLog, Event, Notification, Activity, Setting } from './models/index.js';
 import { generatePackage } from './routes/clients.js';

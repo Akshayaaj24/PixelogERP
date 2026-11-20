@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { STAGES } from '@studioflow/shared';
+import { STAGES } from '@PixelogERP/shared';
 import { useAuth } from '../lib/store.jsx';
 import { Icon } from '../components/ui.jsx';
 
@@ -16,7 +16,7 @@ export default function Login() {
   return (
     <div className="login">
       <div className="login-art">
-        <div className="row g12"><div className="logo" style={{ background: 'rgba(255,255,255,.15)' }}>S</div><b style={{ fontSize: 17 }}>StudioFlow ERP</b></div>
+        <div className="row g12"><div className="logo" style={{ background: 'rgba(255,255,255,.15)' }}>S</div><b style={{ fontSize: 17 }}>PixelogERP ERP</b></div>
         <div>
           <h1>Every client, every video, every deadline in one workflow.</h1>
           <p>Monthly content packages become individual video pipelines automatically, from the first script to the published post.</p>
@@ -26,7 +26,7 @@ export default function Login() {
         <div style={{ opacity: 0.6, fontSize: 12 }}>Production workspace</div>
       </div>
       <div className="login-box">
-        <div className="row g8"><div className="logo">S</div><b>StudioFlow</b></div>
+        <div className="row g8"><div className="logo">S</div><b>PixelogERP</b></div>
         <h2>Sign in</h2><div className="muted" style={{ marginBottom: 22 }}>Admins and staff use the same sign-in. You’ll see the screens for your role.</div>
         <form onSubmit={submit} noValidate>
           <label className="fld"><span>Work email</span><input type="email" value={email} onChange={(e) => setEmail(e.target.value)} autoComplete="username" autoFocus /></label>

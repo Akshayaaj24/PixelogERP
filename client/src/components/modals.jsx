@@ -1,6 +1,6 @@
 // Create/edit forms for clients, packages, staff, general tasks and calendar events.
 import { useRef } from 'react';
-import { CATEGORIES, JOB_ROLES, STAGES, addDays, addMonths, curMonth, todayS } from '@studioflow/shared';
+import { CATEGORIES, JOB_ROLES, STAGES, addDays, addMonths, curMonth, todayS } from '@PixelogERP/shared';
 import { api } from '../api.js';
 import { useAction, useUi, useWorkspace } from '../lib/store.jsx';
 import { ModalForm, Field, Select, TextArea, Checks, Toggle, Btn, Icon, Avatar, fmtL } from './ui.jsx';

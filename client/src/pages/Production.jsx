@@ -1,6 +1,6 @@
 // The four stage modules (scripts, shoots, editing, posting) and staff pages.
 import { useNavigate, useParams } from 'react-router-dom';
-import { STATUSES, STAGE_KEY, STAGE_LBL, PLATFORMS, JOB_ROLES, EVENT_COLORS, tasksOf, isOverdue, shootClash, scheduleConflicts, workload, stageActions, todayS, addDays } from '@studioflow/shared';
+import { STATUSES, STAGE_KEY, STAGE_LBL, PLATFORMS, JOB_ROLES, EVENT_COLORS, tasksOf, isOverdue, shootClash, scheduleConflicts, workload, stageActions, todayS, addDays } from '@PixelogERP/shared';
 import { api } from '../api.js';
 import { useAction, useUi, useWorkspace } from '../lib/store.jsx';
 import { DataTable, useTableState, PageHeader, Card, Badge, Btn, Kebab, Progress, Person, Avatar, ClientMark, Empty, Icon, Kpi, Due, fmt, fmtY, fmtRel, wkday, pct } from '../components/ui.jsx';

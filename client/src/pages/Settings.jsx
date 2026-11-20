@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { NOTIFICATION_TYPES } from '@studioflow/shared';
+import { NOTIFICATION_TYPES } from '@PixelogERP/shared';
 import { api } from '../api.js';
 import { useAction, useUi, useWorkspace, useAuth } from '../lib/store.jsx';
 import { PageHeader, Card, Badge, Btn, Avatar, Icon, fmtY } from '../components/ui.jsx';

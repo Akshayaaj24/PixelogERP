@@ -1,4 +1,4 @@
-# StudioFlow ERP — notes for Claude
+# PixelogERP ERP — notes for Claude
 
 MERN monorepo (npm workspaces): `shared/` (workflow rules, pure JS, ESM), `server/` (Express + Mongoose), `client/` (React 18 + Vite + TanStack Query + React Router).
 
@@ -21,4 +21,4 @@ MERN monorepo (npm workspaces): `shared/` (workflow rules, pure JS, ESM), `serve
 - Client mutations go through `useAction()`, which calls the API, invalidates queries and shows a toast.
 - UI copy: sentence case, plain verbs, buttons say exactly what happens ("Approve script", not "Submit").
 
-See `.claude/skills/studioflow-workflow/SKILL.md` for adding a stage, status or notification.
+See `.claude/skills/PixelogERP-workflow/SKILL.md` for adding a stage, status or notification.

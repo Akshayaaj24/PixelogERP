@@ -1,6 +1,6 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { QueryClient, useQuery, useQueryClient } from '@tanstack/react-query';
-import { tasksOf, generalTask, curMonth } from '@studioflow/shared';
+import { tasksOf, generalTask, curMonth } from '@PixelogERP/shared';
 import { api, getToken, setToken, setUnauthorizedHandler } from '../api.js';
 
 export const queryClient = new QueryClient({ defaultOptions: { queries: { staleTime: 15_000, refetchOnWindowFocus: true, retry: 1 } } });

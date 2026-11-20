@@ -5,14 +5,14 @@ import { config } from './core.js';
 import { createAdminIfMissing } from './routes/people.js';
 
 mongoose.set('strictQuery', true);
-let pending = globalThis.__studioflowDb || null;
+let pending = globalThis.__PixelogERPDb || null;
 
 export async function connectDB() {
   if (mongoose.connection.readyState === 1) return;
   if (!pending) {
     pending = mongoose.connect(config.mongoUri, { serverSelectionTimeoutMS: 10_000, maxPoolSize: 5 })
       .then(async () => { await createAdminIfMissing(); });
-    globalThis.__studioflowDb = pending;
+    globalThis.__PixelogERPDb = pending;
   }
-  try { await pending; } catch (e) { pending = null; globalThis.__studioflowDb = null; throw e; }
+  try { await pending; } catch (e) { pending = null; globalThis.__PixelogERPDb = null; throw e; }
 }

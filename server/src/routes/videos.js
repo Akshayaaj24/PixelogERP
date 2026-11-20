@@ -4,7 +4,7 @@ import { Router } from 'express';
 import { z } from 'zod';
 import {
   STATUSES, STAGE_LBL, PLATFORMS, canTransition, applyTransition, stageAssignees, shootClash, orderWarning, myStage, involved,
-} from '@studioflow/shared';
+} from '@PixelogERP/shared';
 import { Video, Package, Client } from '../models/index.js';
 import { ah, fail, requireAuth, requireAdmin, isAdmin, wfUser, videoScope, managedClientIds, notify, activity, zDate, zUrl, zOptId } from '../core.js';
 

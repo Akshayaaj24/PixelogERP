@@ -1,9 +1,9 @@
 ---
-name: studioflow-workflow
-description: How to change the StudioFlow video workflow safely — add or rename a status, add a production stage, add an automatic side effect or notification, or change who may perform an action. Use for any change to statuses, approvals, stage permissions or workflow automation in this repo.
+name: PixelogERP-workflow
+description: How to change the PixelogERP video workflow safely — add or rename a status, add a production stage, add an automatic side effect or notification, or change who may perform an action. Use for any change to statuses, approvals, stage permissions or workflow automation in this repo.
 ---
 
-# Changing the StudioFlow workflow
+# Changing the PixelogERP workflow
 
 The workflow is defined once in `shared/index.js` and used by both the API and the React client. Work through these steps in order.
 

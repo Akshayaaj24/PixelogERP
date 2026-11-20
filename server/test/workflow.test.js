@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { planPackageVideos, stageActions, canTransition, applyTransition, stageIdx, scheduleConflicts, tasksOf, videoStatus, clientCode } from '@studioflow/shared';
+import { planPackageVideos, stageActions, canTransition, applyTransition, stageIdx, scheduleConflicts, tasksOf, videoStatus, clientCode } from '@PixelogERP/shared';
 
 const team = { writer: 'w1', videographer: 'v1', camera: 'c1', editor: 'e1', smm: 's1' };
 const client = { id: 'cl1', code: 'SRK', category: 'Fitness', address: 'Studio' };

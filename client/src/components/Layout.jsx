@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import { reminders, stageIdx, stageName, todayS, EVENT_COLORS } from '@studioflow/shared';
+import { reminders, stageIdx, stageName, todayS, EVENT_COLORS } from '@PixelogERP/shared';
 import { api } from '../api.js';
 import { useAuth, useUi, useWorkspace, queryClient } from '../lib/store.jsx';
 import { Icon, Avatar, ClientMark, Popover, Empty, fmtL, ago } from './ui.jsx';
@@ -33,7 +33,7 @@ export default function Layout() {
   return (
     <div className={`shell ${collapsed ? 'collapsed' : ''} ${mobile ? 'mnav' : ''}`}>
       <aside className="sb">
-        <div className="sb-h"><div className="logo">S</div><div className="brand"><div className="brand-t">StudioFlow</div><div className="brand-s">{ws.settings.agency}</div></div></div>
+        <div className="sb-h"><div className="logo">S</div><div className="brand"><div className="brand-t">PixelogERP</div><div className="brand-s">{ws.settings.agency}</div></div></div>
         <nav aria-label="Main">
           {(ws.isAdmin ? ADMIN_NAV : STAFF_NAV).map(([g, items]) => (
             <div key={g}><div className="nav-l">{g}</div>

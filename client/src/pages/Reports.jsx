@@ -1,5 +1,5 @@
 import { useSearchParams } from 'react-router-dom';
-import { STAGES, POST_ST, PLATFORMS, EVENT_COLORS, stageIdx, stageName, videoOverdue, videoStatus, isOverdue, workload, curMonth, todayS, diffDays } from '@studioflow/shared';
+import { STAGES, POST_ST, PLATFORMS, EVENT_COLORS, stageIdx, stageName, videoOverdue, videoStatus, isOverdue, workload, curMonth, todayS, diffDays } from '@PixelogERP/shared';
 import { useUi, useWorkspace } from '../lib/store.jsx';
 import { DataTable, PageHeader, Card, Badge, Btn, Kpi, Progress, Person, Avatar, ClientMark, Empty, fmtY, monthLabel, pct } from '../components/ui.jsx';
 import { Bars, Donut, LineChart, Legend } from '../components/charts.jsx';
@@ -30,7 +30,7 @@ export default function Reports() {
   const tab = sp.get('tab') || 'Overview';
   const download = () => {
     const url = URL.createObjectURL(new Blob([csvFor(tab, ws)], { type: 'text/csv' }));
-    Object.assign(document.createElement('a'), { href: url, download: `studioflow-${tab.toLowerCase()}-${todayS()}.csv` }).click();
+    Object.assign(document.createElement('a'), { href: url, download: `PixelogERP-${tab.toLowerCase()}-${todayS()}.csv` }).click();
     setTimeout(() => URL.revokeObjectURL(url), 2000);
   };
   return (

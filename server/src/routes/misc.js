@@ -1,7 +1,7 @@
 // General tasks, calendar events, notifications, activity feed and settings
 import { Router } from 'express';
 import { z } from 'zod';
-import { STAGES, NOTIFICATION_TYPES, addDays, todayS } from '@studioflow/shared';
+import { STAGES, NOTIFICATION_TYPES, addDays, todayS } from '@PixelogERP/shared';
 import { Task, TaskLog, Event, Notification, Activity, Setting } from '../models/index.js';
 import { ah, fail, requireAuth, requireAdmin, isAdmin, notify, activity, getSettings, zDate, zOptId } from '../core.js';
 

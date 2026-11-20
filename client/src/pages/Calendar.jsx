@@ -1,7 +1,7 @@
 // Calendar (month / week / day / client-wise / staff-wise / timeline) and the staff work schedule.
 import { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { STAGES, EVENT_COLORS, deriveEvents, scheduleConflicts, workload, involved, todayS, addDays, addMonths, weekStart, parseD, diffDays } from '@studioflow/shared';
+import { STAGES, EVENT_COLORS, deriveEvents, scheduleConflicts, workload, involved, todayS, addDays, addMonths, weekStart, parseD, diffDays } from '@PixelogERP/shared';
 import { api } from '../api.js';
 import { useAction, useUi, useWorkspace } from '../lib/store.jsx';
 import { PageHeader, Card, Badge, Btn, Avatar, ClientMark, Empty, Icon, fmt, fmtY, fmtL, wkday, monthLabel } from '../components/ui.jsx';

@@ -1,5 +1,5 @@
 // Thin fetch wrapper. The JWT lives in localStorage; a 401 signs the user out.
-const KEY = 'studioflow_token';
+const KEY = 'PixelogERP_token';
 export const getToken = () => localStorage.getItem(KEY);
 export const setToken = (t) => (t ? localStorage.setItem(KEY, t) : localStorage.removeItem(KEY));
 

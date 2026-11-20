@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 import {
   SCRIPT_ST, SHOOT_ST, EDIT_ST, POST_ST, PLATFORMS, JOB_ROLES, CATEGORIES, NOTIFICATION_TYPES, STAGES,
-} from '@studioflow/shared';
+} from '@PixelogERP/shared';
 
 const { Schema, model } = mongoose;
 

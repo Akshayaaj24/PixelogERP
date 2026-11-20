@@ -5,4 +5,4 @@ import { connectDB } from './db.js';
 
 await connectDB();
 console.log('Connected to MongoDB');
-createApp().listen(config.port, () => console.log(`StudioFlow API on http://localhost:${config.port}`));
+createApp().listen(config.port, () => console.log(`PixelogERP API on http://localhost:${config.port}`));

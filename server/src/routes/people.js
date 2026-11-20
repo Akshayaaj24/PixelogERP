@@ -2,7 +2,7 @@
 import { Router } from 'express';
 import bcrypt from 'bcryptjs';
 import { z } from 'zod';
-import { JOB_ROLES, todayS } from '@studioflow/shared';
+import { JOB_ROLES, todayS } from '@PixelogERP/shared';
 import { User, LoginAttempt } from '../models/index.js';
 import { ah, fail, signToken, requireAuth, requireAdmin, isAdmin, activity, notify, zDate, zPhone, zId, staffClientIds } from '../core.js';
 

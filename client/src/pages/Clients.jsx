@@ -1,5 +1,5 @@
 import { useNavigate, useParams } from 'react-router-dom';
-import { STAGES, EVENT_COLORS, stageIdx, stageName, videoStatus, videoOverdue, deriveEvents, todayS, curMonth } from '@studioflow/shared';
+import { STAGES, EVENT_COLORS, stageIdx, stageName, videoStatus, videoOverdue, deriveEvents, todayS, curMonth } from '@PixelogERP/shared';
 import { api } from '../api.js';
 import { useAction, useUi, useWorkspace, } from '../lib/store.jsx';
 import { DataTable, useTableState, PageHeader, Card, Badge, Btn, Kebab, Progress, Person, Avatar, ClientMark, Empty, Icon, Confirm, Due, fmt, fmtY, fmtRel, monthLabel, pct } from '../components/ui.jsx';

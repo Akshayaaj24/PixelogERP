@@ -1,7 +1,7 @@
 // Clients and monthly content packages
 import { Router } from 'express';
 import { z } from 'zod';
-import { CATEGORIES, clientCode, planPackageVideos, addDays, todayS, curMonth } from '@studioflow/shared';
+import { CATEGORIES, clientCode, planPackageVideos, addDays, todayS, curMonth } from '@PixelogERP/shared';
 import { Client, Package, Video, User } from '../models/index.js';
 import { ah, fail, requireAuth, requireAdmin, isAdmin, activity, notify, getSettings, staffClientIds, zDate, zMonth, zPhone, zOptId } from '../core.js';
 

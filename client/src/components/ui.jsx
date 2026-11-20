@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useLayoutEffect, useRef, useState, useSyncExternalStore } from 'react';
-import { STATUS_TONE, EVENT_COLORS, parseD, diffDays, todayS } from '@studioflow/shared';
+import { STATUS_TONE, EVENT_COLORS, parseD, diffDays, todayS } from '@PixelogERP/shared';
 import { useUi } from '../lib/store.jsx';
 
 /* ---------------- Formatting ---------------- */
