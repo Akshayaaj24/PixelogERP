@@ -34,7 +34,7 @@ export default function Login() {
           {error && <div className="m-err on" style={{ margin: 0 }} role="alert">{error}</div>}
           <button className="btn primary full" disabled={busy}>{busy ? 'Signing in…' : 'Sign in'}</button>
         </form>
-        {import.meta.env.DEV && <div className="demo"><b>Sample data</b> (after <b>npm run seed</b>)<br />Admin: admin@brightwave.agency / admin12345<br />Staff: sneha@brightwave.agency / staff12345</div>}
+        {import.meta.env.DEV && <div className="demo"><b>Sample data</b> (after <b>npm run seed</b>)<br />Admin: admin@pixelog.in / admin12345<br />Staff: sneha@pixelog.in / staff12345</div>}
       </div>
     </div>
   );

@@ -20,8 +20,8 @@ Open http://localhost:5173.
 
 | Role  | Email                     | Password     |
 |-------|---------------------------|--------------|
-| Admin | admin@brightwave.agency   | admin12345   |
-| Staff | sneha@brightwave.agency (or any `<firstname>@brightwave.agency`) | staff12345 |
+| Admin | admin@pixelog.in   | admin12345   |
+| Staff | sneha@pixelog.in (or any `<firstname>@pixelog.in`) | staff12345 |
 
 Without the seed, the API creates an admin account on first start from `ADMIN_EMAIL` / `ADMIN_PASSWORD` (default `admin@agency.local` / `admin12345`). Change that password straight away.
 

@@ -15,15 +15,15 @@ await Promise.all([User, Client, Package, Video, Task, TaskLog, Event, Notificat
 
 const R = rng(20261116); const pick = (a) => a[Math.floor(R() * a.length)];
 const T = todayS();
-await Setting.create({ agency: 'Brightwave Media', gaps: { shoot: 3, edit: 4, post: 3 }, notifications: Object.fromEntries(NOTIFICATION_TYPES.map((t) => [t, true])) });
+await Setting.create({ agency: 'pixelog', gaps: { shoot: 3, edit: 4, post: 3 }, notifications: Object.fromEntries(NOTIFICATION_TYPES.map((t) => [t, true])) });
 
 const adminHash = await bcrypt.hash('admin12345', 10);
 const staffHash = await bcrypt.hash('staff12345', 10);
-await User.create({ name: 'Admin', email: 'admin@brightwave.agency', role: 'admin', jobRole: 'Administrator', joined: addDays(T, -900), passwordHash: adminHash });
+await User.create({ name: 'Admin', email: 'admin@pixelog.in', role: 'admin', jobRole: 'Administrator', joined: addDays(T, -900), passwordHash: adminHash });
 const people = [['Priya Raman', 'Account Manager'], ['Arjun Mehta', 'Script Writer'], ['Kavya Nair', 'Script Writer'], ['Rahul Verma', 'Videographer'], ['Divya Iyer', 'Camera Operator'], ['Karthik Subramanian', 'Videographer'], ['Sneha Pillai', 'Video Editor'], ['Vikram Das', 'Video Editor'], ['Ananya Rao', 'Video Editor'], ['Meera Krishnan', 'Social Media Manager'], ['Rohan Kapoor', 'Social Media Manager'], ['Lakshmi Menon', 'Account Manager'], ['Naveen Kumar', 'Camera Operator']];
 const S = {};
 for (const [i, [name, jobRole]] of people.entries()) {
-  const u = await User.create({ name, jobRole, role: 'staff', email: `${name.split(' ')[0].toLowerCase()}@brightwave.agency`, phone: `+91 9${String(840123456 + i * 7310917).slice(0, 9)}`, joined: addDays(T, -(140 + i * 53)), passwordHash: staffHash });
+  const u = await User.create({ name, jobRole, role: 'staff', email: `${name.split(' ')[0].toLowerCase()}@pixelog.in`, phone: `+91 9${String(840123456 + i * 7310917).slice(0, 9)}`, joined: addDays(T, -(140 + i * 53)), passwordHash: staffHash });
   S[name.split(' ')[0]] = u.id;
 }
 const CL = [
@@ -102,6 +102,6 @@ await Notification.insertMany(notes);
 await Activity.create({ text: 'Sample workspace created', by: 'System' });
 
 console.log(`Seeded ${await Client.countDocuments()} clients, ${await Video.countDocuments()} videos, ${people.length} staff.
-  Admin:  admin@brightwave.agency / admin12345
-  Staff:  <firstname>@brightwave.agency / staff12345  (e.g. sneha@brightwave.agency)`);
+  Admin:  admin@pixelog.in / admin12345
+  Staff:  <firstname>@pixelog.in / staff12345  (e.g. sneha@pixelog.in)`);
 await mongoose.disconnect();
