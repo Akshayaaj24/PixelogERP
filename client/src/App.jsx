@@ -5,17 +5,17 @@ import Login from './pages/Login'
 import Dashboard from './pages/Dashboard'
 import Clients from './pages/Clients'
 import ClientProfile from './pages/ClientProfile'
-import Reels from './pages/Reels'
-import Tasks from './pages/Tasks'
+import Calendar from './pages/Calendar'
 import Team from './pages/Team'
 import Reports from './pages/Reports'
 import Settings from './pages/Settings'
 
-function Protected({ children, admin }) {
-  const { user, isAdmin, ready } = useAuth()
+// manage = admin or manager only
+function Protected({ children, manage }) {
+  const { user, canManage, ready } = useAuth()
   if (!ready) return null
   if (!user) return <Navigate to="/login" replace />
-  if (admin && !isAdmin) return <Navigate to="/" replace />
+  if (manage && !canManage) return <Navigate to="/" replace />
   return children
 }
 
@@ -25,13 +25,15 @@ export default function App() {
       <Route path="/login" element={<Login />} />
       <Route element={<Protected><Layout /></Protected>}>
         <Route path="/" element={<Dashboard />} />
-        <Route path="/clients" element={<Clients />} />
-        <Route path="/clients/:id" element={<ClientProfile />} />
-        <Route path="/reels" element={<Reels />} />
-        <Route path="/tasks" element={<Tasks />} />
-        <Route path="/team" element={<Protected admin><Team /></Protected>} />
-        <Route path="/reports" element={<Protected admin><Reports /></Protected>} />
+        <Route path="/calendar" element={<Calendar />} />
+        <Route path="/clients" element={<Protected manage><Clients /></Protected>} />
+        <Route path="/clients/:id" element={<Protected manage><ClientProfile /></Protected>} />
+        <Route path="/team" element={<Protected manage><Team /></Protected>} />
+        <Route path="/reports" element={<Reports />} />
         <Route path="/settings" element={<Settings />} />
+        {/* old links */}
+        <Route path="/reels" element={<Navigate to="/calendar" replace />} />
+        <Route path="/tasks" element={<Navigate to="/calendar" replace />} />
       </Route>
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>

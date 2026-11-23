@@ -2,6 +2,8 @@ import { useState } from 'react'
 import { Navigate } from 'react-router-dom'
 import { useAuth } from '../context/Auth'
 import { Button, ErrorBox, Field, Input } from '../components/ui'
+import { LogoBadge } from '../components/Logo'
+import ThemeToggle from '../components/ThemeToggle'
 
 export default function Login() {
   const { user, login } = useAuth()
@@ -19,8 +21,10 @@ export default function Login() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center p-4">
-      <form onSubmit={submit} className="w-full max-w-sm rounded-2xl border border-slate-200 bg-white p-8">
+    <div className="relative flex min-h-screen items-center justify-center p-4">
+      <ThemeToggle className="absolute right-4 top-4" />
+      <form onSubmit={submit} className="w-full max-w-sm rounded-2xl border border-slate-200 bg-surface p-8">
+        <LogoBadge className="mb-4 h-14 w-14" mark="h-10 w-10" />
         <div className="mb-1 text-xl font-bold tracking-wide text-slate-900">PIXELOG</div>
         <p className="mb-6 text-sm text-slate-500">Log in to your workspace</p>
         <div className="space-y-4">

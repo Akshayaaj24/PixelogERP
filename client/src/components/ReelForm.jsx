@@ -5,13 +5,12 @@ import { del, post, put } from '../lib/api'
 import { EMPLOYEE_STAGES, STAGES, toInputDate } from '../lib/constants'
 import { Button, ErrorBox, Field, Input, Modal, Select, Textarea } from './ui'
 
-// ✨ buttons — connected to Claude API in Step 5
-function AiButton({ label }) {
-  const [msg, setMsg] = useState(false)
+// ✨ buttons — ask Claude to write into a field
+function AiButton({ label, busy, onClick }) {
   return (
-    <button type="button" onClick={() => { setMsg(true); setTimeout(() => setMsg(false), 1800) }}
-      className="inline-flex items-center gap-1 rounded-md px-1.5 py-0.5 text-xs font-medium text-brand hover:bg-blue-50">
-      <Sparkles size={13} /> {msg ? 'Coming soon' : label}
+    <button type="button" onClick={onClick} disabled={busy}
+      className="inline-flex items-center gap-1 rounded-md px-1.5 py-0.5 text-xs font-medium text-brand hover:bg-blue-50 disabled:opacity-60">
+      <Sparkles size={13} className={busy ? 'animate-pulse' : ''} /> {busy ? 'Writing…' : label}
     </button>
   )
 }
@@ -22,7 +21,7 @@ function Label({ text, ai, copy }) {
       <span className="text-xs font-medium text-slate-600">{text}</span>
       <span className="flex items-center gap-1">
         {copy && <button type="button" onClick={() => navigator.clipboard?.writeText(copy)} className="rounded-md p-1 text-slate-400 hover:bg-slate-100" title="Copy"><Copy size={13} /></button>}
-        {ai && <AiButton label={ai} />}
+        {ai}
       </span>
     </span>
   )
@@ -40,9 +39,21 @@ export default function ReelForm({ reel, clients = [], users = [], defaultDate, 
     stage: reel?.stage ?? 'idea', notes: reel?.notes ?? '',
   })
   const [error, setError] = useState('')
+  const [aiBusy, setAiBusy] = useState('')
   const set = (k) => (e) => setF({ ...f, [k]: e.target.value })
   const locked = !isAdmin // employees can't change client, date, people
   const stageOptions = isAdmin ? STAGES : STAGES.filter((s) => EMPLOYEE_STAGES.includes(s.key) || s.key === f.stage)
+
+  // field: ideas → idea box, script, caption, hashtags
+  const askAI = async (field) => {
+    if (!f.client) return setError('Select a client first — AI uses their brand notes')
+    setAiBusy(field); setError('')
+    try {
+      const { text } = await post('/ai/reel', { clientId: f.client, field, title: f.title, idea: f.idea, script: f.script, caption: f.caption })
+      setF((cur) => ({ ...cur, [field === 'ideas' ? 'idea' : field]: text }))
+    } catch (e) { setError(e.message) } finally { setAiBusy('') }
+  }
+  const ai = (field, label) => <AiButton label={label} busy={aiBusy === field} onClick={() => askAI(field)} />
 
   const save = async () => {
     if (!f.client || !f.title.trim() || !f.postDate) return setError('Client, title and date are required')
@@ -99,10 +110,10 @@ export default function ReelForm({ reel, clients = [], users = [], defaultDate, 
           {!isAdmin && <p className="mt-1.5 text-xs text-slate-400">After you send the video on WhatsApp, set the stage to “Sent to Owner”.</p>}
         </div>
 
-        <label className="block sm:col-span-2"><Label text="Idea" ai="Ideas" /><Textarea rows={2} value={f.idea} onChange={set('idea')} disabled={locked} /></label>
-        <label className="block sm:col-span-2"><Label text="Script" ai="Write script" /><Textarea rows={5} value={f.script} onChange={set('script')} /></label>
-        <label className="block sm:col-span-2"><Label text="Caption" ai="Caption" copy={f.caption} /><Textarea rows={3} value={f.caption} onChange={set('caption')} /></label>
-        <label className="block sm:col-span-2"><Label text="Hashtags" ai="Hashtags" copy={f.hashtags} /><Input value={f.hashtags} onChange={set('hashtags')} placeholder="#bridaljewellery #thoothukudi" /></label>
+        <label className="block sm:col-span-2"><Label text="Idea" ai={!locked && ai('ideas', 'Ideas')} /><Textarea rows={f.idea.length > 120 ? 5 : 2} value={f.idea} onChange={set('idea')} disabled={locked} /></label>
+        <label className="block sm:col-span-2"><Label text="Script" ai={ai('script', f.script ? 'Improve' : 'Write script')} /><Textarea rows={8} value={f.script} onChange={set('script')} /></label>
+        <label className="block sm:col-span-2"><Label text="Caption" ai={ai('caption', 'Caption')} copy={f.caption} /><Textarea rows={3} value={f.caption} onChange={set('caption')} /></label>
+        <label className="block sm:col-span-2"><Label text="Hashtags" ai={ai('hashtags', 'Hashtags')} copy={f.hashtags} /><Input value={f.hashtags} onChange={set('hashtags')} placeholder="#bridaljewellery #thoothukudi" /></label>
         <Field label="Notes (owner feedback, links…)" className="sm:col-span-2"><Textarea rows={2} value={f.notes} onChange={set('notes')} /></Field>
       </div>
       <div className="mt-4"><ErrorBox text={error} /></div>

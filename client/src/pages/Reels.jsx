@@ -1,10 +1,11 @@
 import { useMemo, useState } from 'react'
-import { ChevronLeft, ChevronRight, Plus, ArrowRight } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Plus, ArrowRight, Sparkles } from 'lucide-react'
 import { useAuth } from '../context/Auth'
 import useFetch from '../lib/useFetch'
 import { put } from '../lib/api'
 import { EMPLOYEE_STAGES, STAGES, fmtDate, fmtTime, toInputDate } from '../lib/constants'
 import ReelForm from '../components/ReelForm'
+import PlanMonth from '../components/PlanMonth'
 import { StageBadge } from '../components/StatusBadge'
 import { Button, Card, Empty, ErrorBox, Loading, PageHeader, Select, Tabs } from '../components/ui'
 
@@ -37,6 +38,7 @@ export default function Reels() {
   const [client, setClient] = useState('')
   const [person, setPerson] = useState('')
   const [editing, setEditing] = useState(null) // reel object, or { new: true, date }
+  const [planning, setPlanning] = useState(false)
 
   const from = toInputDate(month)
   const to = toInputDate(new Date(month.getFullYear(), month.getMonth() + 1, 0))
@@ -69,6 +71,7 @@ export default function Reels() {
   return (
     <div>
       <PageHeader title="Reels" subtitle={isAdmin ? 'Plan and track every client reel' : 'Your reels this month'}>
+        {isAdmin && <Button variant="outline" onClick={() => setPlanning(true)}><Sparkles size={16} className="text-brand" /> Plan month</Button>}
         {isAdmin && <Button onClick={() => setEditing({ new: true })}><Plus size={16} /> New Reel</Button>}
       </PageHeader>
 
@@ -156,6 +159,11 @@ export default function Reels() {
         </Card>
       )}
 
+      {planning && (
+        <PlanMonth clients={clients.data ?? []} users={users.data ?? []} defaultClient={client}
+          onClose={() => setPlanning(false)}
+          onDone={() => { setPlanning(false); reload() }} />
+      )}
       {editing && (
         <ReelForm
           reel={editing.new ? null : editing}

@@ -1,10 +1,13 @@
 import { Router } from 'express'
 import Client from '../models/Client.js'
-import Reel from '../models/Reel.js'
-import Task from '../models/Task.js'
+import Work from '../models/Work.js'
+import User from '../models/User.js'
 import { dayStart, weekStart, monthRange } from '../utils/time.js'
+import { involving, stepState, PERSON_KEYS } from '../utils/work.js'
 
 const r = Router()
+const PEOPLE = PERSON_KEYS.map((k) => `people.${k}`).join(' ')
+const pop = (q) => q.populate('client', 'name businessName logo instagram').populate(PEOPLE, 'name photo')
 
 function range(period) {
   if (period === 'week') { const start = weekStart(); return { start, end: new Date(start.getTime() + 7 * 864e5) } }
@@ -13,37 +16,56 @@ function range(period) {
 }
 
 r.get('/', async (req, res) => {
-  const { start, end } = range(req.query.period)
-  const now = new Date(); const today = dayStart(0)
-  const mineReel = req.isAdmin ? {} : { $or: [{ scriptWriter: req.user._id }, { editor: req.user._id }] }
-  const mineTask = req.isAdmin ? {} : { assignedTo: req.user._id }
+  const today = dayStart(0), tomorrow = dayStart(1), dayAfter = dayStart(2)
 
-  const [activeClients, reelsInPeriod, waitingApproval, overdueTasks, overdueReels, reels, tasksDue, deadlines] = await Promise.all([
+  // ── Member: "My Work" ─────────────────────────────
+  if (!req.canManage) {
+    const { start: mStart, end: mEnd } = monthRange()
+    const mine = await pop(Work.find({ $and: [involving(req.user._id), { $or: [{ status: { $ne: 'done' } }, { doneAt: { $gte: dayStart(-7) } }, { date: { $gte: mStart, $lt: mEnd } }] }] })).sort({ date: 1, time: 1 })
+    const items = mine.map((w) => ({ ...w.toObject(), myState: stepState(w, req.user._id) }))
+    const inMonth = items.filter((w) => w.date >= mStart && w.date < mEnd)
+    return res.json({
+      role: 'member',
+      items,
+      counts: {
+        today: items.filter((w) => w.myState === 'active' && w.date >= today && w.date < tomorrow).length,
+        overdue: items.filter((w) => w.myState === 'active' && w.date < today).length,
+        waiting: items.filter((w) => w.myState === 'active' && w.status === 'waiting').length,
+        doneMonth: inMonth.filter((w) => w.myState === 'done').length,
+        pendingMonth: inMonth.filter((w) => w.myState !== 'done').length,
+      },
+    })
+  }
+
+  // ── Admin / Manager ───────────────────────────────
+  const { start, end } = range(req.query.period)
+  const notDone = { status: { $ne: 'done' } }
+  const [activeClients, inPeriod, waiting, overdue, work, postingTomorrow, bondEnding] = await Promise.all([
     Client.countDocuments({ status: 'active' }),
-    Reel.countDocuments({ ...mineReel, postDate: { $gte: start, $lt: end } }),
-    Reel.countDocuments({ ...mineReel, stage: { $in: ['sent_to_owner', 'sent_to_client'] } }),
-    Task.countDocuments({ ...mineTask, status: { $ne: 'done' }, dueDate: { $lt: today } }),
-    Reel.countDocuments({ ...mineReel, postDate: { $lt: today }, stage: { $nin: ['posted'] } }),
-    Reel.find({ ...mineReel, postDate: { $gte: start, $lt: end } }).populate('client', 'name').populate('scriptWriter editor', 'name').sort({ postDate: 1, postTime: 1 }).limit(30),
-    Task.find({ ...mineTask, status: { $ne: 'done' }, dueDate: { $gte: start, $lt: end } }).populate('client', 'name').populate('assignedTo', 'name').sort({ dueDate: 1 }).limit(30),
-    Task.find({ ...mineTask, status: { $ne: 'done' }, dueDate: { $lt: new Date(now.getTime() + 7 * 864e5) } }).populate('client', 'name').populate('assignedTo', 'name').sort({ dueDate: 1 }).limit(8),
+    Work.countDocuments({ date: { $gte: start, $lt: end } }),
+    pop(Work.find({ status: 'waiting' })).sort({ submittedAt: 1 }).limit(20),
+    pop(Work.find({ ...notDone, date: { $lt: today } })).sort({ date: 1 }).limit(20),
+    pop(Work.find({ date: { $gte: start, $lt: end } })).sort({ date: 1, time: 1 }).limit(60),
+    // Posting reminder: goes out tomorrow but not approved yet
+    pop(Work.find({ date: { $gte: tomorrow, $lt: dayAfter }, status: { $in: ['start', 'processing', 'waiting'] } })).limit(20),
+    req.isAdmin ? User.find({ active: true, bondEndDate: { $gte: today, $lt: new Date(today.getTime() + 30 * 864e5) } }).select('name bondEndDate').lean() : [],
   ])
 
-  // One combined "work" list: reels to post + tasks due
-  const work = [
-    ...reels.map((x) => ({ _id: x._id, type: 'reel', date: x.postDate, time: x.postTime, client: x.client?.name, title: x.title, person: x.editor?.name || x.scriptWriter?.name || '—', stage: x.stage })),
-    ...tasksDue.map((t) => ({ _id: t._id, type: 'task', date: t.dueDate, time: '', client: t.client?.name || '—', title: t.title, person: t.assignedTo?.name || '—', status: t.status })),
-  ].sort((a, b) => new Date(a.date) - new Date(b.date) || (a.time || '99').localeCompare(b.time || '99'))
-
   res.json({
+    role: req.role,
     stats: [
-      { label: 'Active Clients', value: activeClients },
-      { label: 'Reels in Period', value: reelsInPeriod },
-      { label: 'Waiting Approval', value: waitingApproval },
-      { label: 'Overdue', value: overdueTasks + overdueReels, alert: overdueTasks + overdueReels > 0 },
+      { key: 'clients', label: 'Active Clients', value: activeClients },
+      { key: 'period', label: 'Work in Period', value: inPeriod },
+      { key: 'waiting', label: 'Waiting Approval', value: waiting.length, alert: waiting.length > 0 },
+      { key: 'overdue', label: 'Overdue', value: overdue.length, alert: overdue.length > 0 },
     ],
     work,
-    deadlines,
+    waiting,
+    overdue,
+    alerts: [
+      ...postingTomorrow.map((w) => ({ type: 'posting', text: `Posts tomorrow, not approved yet: ${w.title} (${w.client?.name})`, workId: w._id })),
+      ...bondEnding.map((u) => ({ type: 'bond', text: `${u.name}'s bond ends on ${new Date(u.bondEndDate).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}` })),
+    ],
   })
 })
 

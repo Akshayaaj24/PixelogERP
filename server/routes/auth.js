@@ -1,11 +1,11 @@
 import { Router } from 'express'
 import jwt from 'jsonwebtoken'
-import User from '../models/User.js'
+import User, { roleOf } from '../models/User.js'
 import { protect } from '../middleware/auth.js'
 
 const r = Router()
 const sign = (id) => jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: '30d' })
-const safe = (u) => ({ _id: u._id, name: u.name, email: u.email, role: u.role, designation: u.designation, phone: u.phone })
+const safe = (u) => ({ _id: u._id, name: u.name, email: u.email, role: roleOf(u), designation: u.designation, phone: u.phone, photo: u.photo })
 
 r.post('/login', async (req, res) => {
   const { email, password } = req.body
@@ -18,9 +18,10 @@ r.post('/login', async (req, res) => {
 r.get('/me', protect, (req, res) => res.json(safe(req.user)))
 
 r.put('/me', protect, async (req, res) => {
-  const { name, phone } = req.body
+  const { name, phone, photo } = req.body
   if (name) req.user.name = name
   if (phone !== undefined) req.user.phone = phone
+  if (photo !== undefined) req.user.photo = photo // everyone can change their own photo
   await req.user.save()
   res.json(safe(req.user))
 })

@@ -2,11 +2,11 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../context/Auth'
 import { put } from '../lib/api'
-import { Button, Card, ErrorBox, Field, Input, PageHeader } from '../components/ui'
+import { Button, Card, ErrorBox, Field, ImagePicker, Input, PageHeader } from '../components/ui'
 
 export default function Settings() {
-  const { user, setUser, isAdmin } = useAuth()
-  const [profile, setProfile] = useState({ name: user.name, phone: user.phone || '' })
+  const { user, setUser, isAdmin, role } = useAuth()
+  const [profile, setProfile] = useState({ name: user.name, phone: user.phone || '', photo: user.photo || '' })
   const [pw, setPw] = useState({ current: '', next: '' })
   const [msg, setMsg] = useState({})
 
@@ -22,10 +22,11 @@ export default function Settings() {
       <PageHeader title="Settings" />
       <Card title="My Profile">
         <div className="grid gap-4 p-5 sm:grid-cols-2">
+          <div className="sm:col-span-2"><span className="mb-1 block text-xs font-medium text-slate-600">Photo</span><ImagePicker round value={profile.photo} onChange={(photo) => setProfile({ ...profile, photo })} onError={(e) => setMsg({ profileErr: e })} label="Change photo" /></div>
           <Field label="Name"><Input value={profile.name} onChange={(e) => setProfile({ ...profile, name: e.target.value })} /></Field>
           <Field label="Phone"><Input value={profile.phone} onChange={(e) => setProfile({ ...profile, phone: e.target.value })} /></Field>
           <Field label="Email (login)"><Input value={user.email} disabled /></Field>
-          <Field label="Role"><Input value={isAdmin ? 'Admin' : user.designation || 'Employee'} disabled /></Field>
+          <Field label="Role"><Input value={`${{ admin: 'Admin', manager: 'Manager', member: 'Member' }[role]}${user.designation ? ' · ' + user.designation : ''}`} disabled /></Field>
           <div className="flex items-center gap-3 sm:col-span-2">
             <Button onClick={saveProfile}>Save</Button>
             {msg.profile && <span className="text-sm text-green-700">{msg.profile}</span>}
@@ -50,7 +51,7 @@ export default function Settings() {
         <Card title="Company">
           <div className="space-y-2 p-5 text-sm text-slate-600">
             <p>Add, edit or disable team logins in <Link to="/team" className="font-medium text-brand">Team</Link>.</p>
-            <p className="text-slate-400">Coming later: AI settings (Claude), WhatsApp notifications, Meta Ads connection.</p>
+            <p className="text-slate-400">AI (Claude) is on when ANTHROPIC_API_KEY is set on the server. Coming later: WhatsApp notifications, Meta Ads connection.</p>
           </div>
         </Card>
       )}

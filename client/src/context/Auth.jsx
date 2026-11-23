@@ -20,7 +20,7 @@ export function AuthProvider({ children }) {
   const logout = () => { localStorage.removeItem('token'); setUser(null) }
 
   return (
-    <AuthContext.Provider value={{ user, setUser, isAdmin: user?.role === 'admin', ready, login, logout }}>
+    <AuthContext.Provider value={{ user, setUser, role: user?.role === 'employee' ? 'member' : user?.role, isAdmin: user?.role === 'admin', canManage: ['admin', 'manager'].includes(user?.role), ready, login, logout }}>
       {children}
     </AuthContext.Provider>
   )

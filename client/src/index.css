@@ -1,9 +1,54 @@
 @import "tailwindcss";
 
+/* Dark mode is turned on by the "dark" class on <html> (see ThemeToggle) */
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
   --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
   --color-navy: #0f172a;
   --color-brand: #2563eb;
+  --color-surface: #ffffff; /* cards, inputs, modals */
 }
 
 body { @apply bg-slate-50 text-slate-800 antialiased; }
+
+/* ───────── Dark theme ─────────
+   Soft navy, not black. Greys flip, colours become gentle pastels. */
+.dark {
+  color-scheme: dark;
+  --color-surface: #151b2b;
+  --color-brand: #3b82f6;
+  --color-navy: #0b1120;
+
+  --color-slate-50: #0e1320;
+  --color-slate-100: #1c2336;
+  --color-slate-200: #272f46;
+  --color-slate-300: #38425c;
+  --color-slate-400: #7d889f;
+  --color-slate-500: #99a3b7;
+  --color-slate-600: #b4bccc;
+  --color-slate-700: #ccd2de;
+  --color-slate-800: #e1e5ee;
+  --color-slate-900: #f2f4f8;
+
+  --color-blue-50: rgb(59 130 246 / 0.12);   --color-blue-100: rgb(59 130 246 / 0.2);   --color-blue-200: rgb(59 130 246 / 0.3);
+  --color-blue-600: #60a5fa; --color-blue-700: #93c5fd; --color-blue-800: #bfdbfe;
+  --color-sky-50: rgb(14 165 233 / 0.12);    --color-sky-100: rgb(14 165 233 / 0.2);    --color-sky-200: rgb(14 165 233 / 0.3);
+  --color-sky-600: #38bdf8; --color-sky-700: #7dd3fc; --color-sky-800: #bae6fd;
+  --color-violet-50: rgb(139 92 246 / 0.12); --color-violet-100: rgb(139 92 246 / 0.2); --color-violet-200: rgb(139 92 246 / 0.3);
+  --color-violet-600: #a78bfa; --color-violet-700: #c4b5fd; --color-violet-800: #ddd6fe;
+  --color-pink-50: rgb(236 72 153 / 0.12);   --color-pink-100: rgb(236 72 153 / 0.2);   --color-pink-200: rgb(236 72 153 / 0.3);
+  --color-pink-600: #f472b6; --color-pink-700: #f9a8d4; --color-pink-800: #fbcfe8;
+  --color-amber-50: rgb(245 158 11 / 0.12);  --color-amber-100: rgb(245 158 11 / 0.2);  --color-amber-200: rgb(245 158 11 / 0.3);
+  --color-amber-600: #fbbf24; --color-amber-700: #fcd34d; --color-amber-800: #fde68a;
+  --color-orange-50: rgb(249 115 22 / 0.12); --color-orange-100: rgb(249 115 22 / 0.2);
+  --color-orange-600: #fb923c; --color-orange-700: #fdba74; --color-orange-800: #fed7aa;
+  --color-green-50: rgb(34 197 94 / 0.12);   --color-green-100: rgb(34 197 94 / 0.2);   --color-green-200: rgb(34 197 94 / 0.3);
+  --color-green-600: #4ade80; --color-green-700: #86efac; --color-green-800: #bbf7d0;
+  --color-emerald-50: rgb(16 185 129 / 0.12); --color-emerald-100: rgb(16 185 129 / 0.2);
+  --color-emerald-600: #34d399; --color-emerald-700: #6ee7b7; --color-emerald-800: #a7f3d0;
+  --color-teal-50: rgb(20 184 166 / 0.12);   --color-teal-100: rgb(20 184 166 / 0.2);   --color-teal-200: rgb(20 184 166 / 0.3);
+  --color-teal-600: #2dd4bf; --color-teal-700: #5eead4; --color-teal-800: #99f6e4;
+  --color-red-50: rgb(239 68 68 / 0.12);     --color-red-100: rgb(239 68 68 / 0.2);     --color-red-200: rgb(239 68 68 / 0.35);
+  --color-red-600: #f87171; --color-red-700: #fca5a5; --color-red-800: #fecaca;
+}
